@@ -1,5 +1,23 @@
 # Bmp4PunchClock
-Awesome c++ punch clock!
+Awesome free command time punch clock! Allows user to capture time for different projects.
+Times are written in a file for later reference, e.g., 
+
+--------------------------------
+Project0 - 2015-03-24
+20:54:55 - 20:54:58, 0:0:2
+TOTAL 0:0:2
+--------------------------------
+Project2 - 2015-03-24
+TOTAL 0:0:0
+--------------------------------
+Project1 - 2015-03-24
+20:55:23 - 20:55:27, 0:0:3
+TOTAL 0:0:3
+--------------------------------
+Project1 - 2015-03-24
+20:56:01 - 20:56:03, 0:0:2
+20:56:03 - 20:56:11, 0:0:7
+TOTAL 0:0:9
 
 The MIT License (MIT)
 
