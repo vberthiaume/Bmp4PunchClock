@@ -3,7 +3,27 @@
 //  PunchClock
 //
 //  Created by Vincent Berthiaume on 2015-03-24.
-//  Copyright (c) 2015 BMP4. All rights reserved.
+//  The MIT License (MIT)
+
+//  Copyright (c) 2015 Vincent Berthiaume
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 #include <iostream>
@@ -61,27 +81,48 @@ class Bmp4PunchClock {
     ofstream fileOutputStream;
     
     void punchIn(){
+        bIsPunchedIn = true;
+        punchInTime = chrono::system_clock::now();
+        
+        string strPunchInTime = time2string(punchInTime);
+        cout << "Punched in at " << strPunchInTime << "\n";
+        
+        fileOutputStream << strPunchInTime << " - ";
+    }
+    
+    void punchOut(){
         bIsPunchedIn = false;
         
         punchOutTime = chrono::system_clock::now();
         cout << "Punched out at " << time2string(punchOutTime) << "\n";
+        
+        string strPunchOutTime = time2string(punchOutTime);
+        
+        fileOutputStream << strPunchOutTime << ", ";
+        
         elapsedTime = punchOutTime - punchInTime;
         
         //elapsedTime = chrono::seconds(3661);
         
         vAllTimes.push_back(chrono::duration_cast<chrono::seconds>(elapsedTime).count());
         
-        calculateTime(elapsedTime, seconds, minutes, hours );
+        calculateTime(elapsedTime);
         
         cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
         
         fileOutputStream << hours << ":" << minutes << ":" << seconds << "\n";
     }
     
-    void punchOut(){
-        bIsPunchedIn = true;
-        punchInTime = chrono::system_clock::now();
-        cout << "Punched in at " << time2string(punchInTime) << "\n";
+    void calculateTime(long elapsedTime){
+        seconds = elapsedTime;
+        hours  = floor(seconds  / 3600);
+        seconds -= hours * 3600;
+        minutes = floor(seconds / 60);
+        seconds -= minutes * 60;
+    }
+    
+    void calculateTime(chrono::duration<double> elapsedTime){
+        calculateTime(chrono::duration_cast<chrono::seconds>(elapsedTime).count());
     }
 
 public:
@@ -97,16 +138,12 @@ public:
     
     ~Bmp4PunchClock(){
         
-        if (bIsPunchedIn){
-            punchOut();
-        }
-        
         long totalTime = 0;
         for (auto it = vAllTimes.begin(); it != vAllTimes.end(); ++it){
             totalTime += *it;
         }
         
-        calculateTime(totalTime, seconds, minutes, hours);
+        calculateTime(totalTime);
         
         cout << "You worked a total of : "  << hours << ":" << minutes << ":" << seconds << " on project " << ProjectNames[iSelectedProject] << "\n";
         
@@ -149,31 +186,17 @@ public:
                 
             } while (strSelectedOption != "p" && strSelectedOption != "x");
             
-            //punching out
             if (bIsPunchedIn){
-                punchIn();
-            }
-            
-            //punching in
-            else {
                 punchOut();
+            }  else if (strSelectedOption != "x"){
+                punchIn();
             }
             
         } while (strSelectedOption != "x");
         
     }
     
-    void calculateTime(long elapsedTime, long& workSeconds, long& workMinutes, long& workHours){
-        workSeconds = elapsedTime;
-        workHours  = floor(workSeconds  / 3600);
-        workSeconds -= workHours * 3600;
-        workMinutes = floor(workSeconds / 60);
-        workSeconds -= workMinutes * 60;
-    }
-    
-    void calculateTime(chrono::duration<double> elapsedTime, long& workSeconds, long& workMinutes, long& workHours){
-        calculateTime(chrono::duration_cast<chrono::seconds>(elapsedTime).count(), workSeconds, workMinutes, workHours);
-    }
+
 };
 
 int main(int argc, const char * argv[]) {
