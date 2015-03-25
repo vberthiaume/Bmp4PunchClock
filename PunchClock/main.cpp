@@ -37,6 +37,8 @@
 
 using namespace std;
 
+static const string FILEPATH = "~/Dropbox/PunchClockHours.csv";
+
 enum Projects {
     Project0 = 0,
     Project1,
@@ -98,7 +100,7 @@ class Bmp4PunchClock {
         
         string strPunchOutTime = time2string(punchOutTime);
         
-        fileOutputStream << strPunchOutTime << ", ";
+        fileOutputStream << strPunchOutTime;
         
         elapsedTime = punchOutTime - punchInTime;
         
@@ -110,7 +112,7 @@ class Bmp4PunchClock {
         
         cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
         
-        fileOutputStream << hours << ":" << minutes << ":" << seconds << "\n";
+        fileOutputStream << "," << hours << ":" << minutes << ":" << seconds << "\n";
     }
     
     void calculateTime(long elapsedTime){
@@ -132,7 +134,7 @@ public:
     Bmp4PunchClock():
     bIsPunchedIn(false),
     iSelectedProject(-1) {
-        fileOutputStream = ofstream("PunchClockHours.txt", ios::app);
+        fileOutputStream = ofstream(FILEPATH, ios::app);
         if(!fileOutputStream) cerr << "error";
     }
     
@@ -149,7 +151,7 @@ public:
         
         now = chrono::system_clock::now();
         
-        fileOutputStream << "TOTAL "  << hours << ":" << minutes << ":" << seconds << "\n";
+        fileOutputStream << "TOTAL,,"  << hours << ":" << minutes << ":" << seconds << "\n";
         
         fileOutputStream.close();
     }
@@ -177,22 +179,22 @@ public:
     
     void waitForPunches(){
         // ------------------ PUNCH IN AND OUT ------------------
-        cout << "Type <p> to punch in and out, or <x> to exit.\n\n";
+        cout << "Type <p> to punch in and out, or <q> to exit.\n\n";
         do {
             strSelectedOption = "";
             do {
                 cout << ">";
                 cin >> strSelectedOption;
                 
-            } while (strSelectedOption != "p" && strSelectedOption != "x");
+            } while (strSelectedOption != "p" && strSelectedOption != "q");
             
             if (bIsPunchedIn){
                 punchOut();
-            }  else if (strSelectedOption != "x"){
+            }  else if (strSelectedOption != "q"){
                 punchIn();
             }
             
-        } while (strSelectedOption != "x");
+        } while (strSelectedOption != "q");
         
     }
     
