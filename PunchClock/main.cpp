@@ -37,19 +37,19 @@
 
 using namespace std;
 
-static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
+static const string FILEPATH = "~Dropbox/PunchClockHours.csv";
 
 enum Projects {
-    Project0 = 0,
-    Project1,
-    Project2,
+    GRIS = 0,
+    sBMP4,
+    SonicBirth,
     TotalProjectCount
 };
 
 static string ProjectNames[] = {
-    "Project0",
-    "Project1",
-    "Project2"
+    "GRIS",
+    "sBMP4",
+    "SonicBirth"
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time)
@@ -135,7 +135,20 @@ public:
     bIsPunchedIn(false),
     iSelectedProject(-1) {
         fileOutputStream = ofstream(FILEPATH, ios::app);
-        if(!fileOutputStream) cerr << "ERROR: Cannot open file: " << FILEPATH << "\n";
+        if(!fileOutputStream){
+            cerr << "ERROR: Cannot open file: " << FILEPATH << "\n";
+            exit(1);
+        }
+    }
+    
+    ~Bmp4PunchClock(){
+        if (bIsPunchedIn){
+            punchOut();
+        }
+        
+        if (fileOutputStream.is_open()){
+            fileOutputStream.close();
+        }
     }
     
     void wrapup(){
@@ -156,6 +169,10 @@ public:
     }
     
     bool projectSelection(){
+        
+        
+        
+        
         cout << "************ BMP4 PUNCH CLOCK ************\n\n\n";
         cout << "Pick the project you want to work on!\n";
         for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
