@@ -37,7 +37,7 @@
 
 using namespace std;
 
-static const string FILEPATH = "~/Dropbox/PunchClockHours.csv";
+static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
 
 enum Projects {
     Project0 = 0,
@@ -135,11 +135,10 @@ public:
     bIsPunchedIn(false),
     iSelectedProject(-1) {
         fileOutputStream = ofstream(FILEPATH, ios::app);
-        if(!fileOutputStream) cerr << "error";
+        if(!fileOutputStream) cerr << "ERROR: Cannot open file: " << FILEPATH << "\n";
     }
     
-    ~Bmp4PunchClock(){
-        
+    void wrapup(){
         long totalTime = 0;
         for (auto it = vAllTimes.begin(); it != vAllTimes.end(); ++it){
             totalTime += *it;
@@ -156,16 +155,24 @@ public:
         fileOutputStream.close();
     }
     
-    void projectSelection(){
+    bool projectSelection(){
         cout << "************ BMP4 PUNCH CLOCK ************\n\n\n";
         cout << "Pick the project you want to work on!\n";
         for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
             cout << "[" << iCurProject << "] " <<  ProjectNames[iCurProject] << "\n";
         }
         
+        char aSelectedProject;
         do {
             cout << ">";
-            cin >> iSelectedProject;
+
+            cin >> aSelectedProject;
+            if (aSelectedProject == 'q'){
+                return false;
+            } else if (isalpha(aSelectedProject)){
+                continue;
+            }
+            iSelectedProject = aSelectedProject - '0';
             
         } while (iSelectedProject < 0 || iSelectedProject >= TotalProjectCount);
         
@@ -174,7 +181,8 @@ public:
         now = chrono::system_clock::now();
         fileOutputStream << "--------------------------------\n";
         fileOutputStream << ProjectNames[iSelectedProject] << " - " << time2date(now) << "\n";
-
+        
+        return true;
     }
     
     void waitForPunches(){
@@ -205,9 +213,10 @@ int main(int argc, const char * argv[]) {
     
     Bmp4PunchClock punchClock;
     
-    punchClock.projectSelection();
-    
-    punchClock.waitForPunches();
+    if (punchClock.projectSelection()){
+        punchClock.waitForPunches();
+        punchClock.wrapup();
+    }
     
     return 0;
 }
