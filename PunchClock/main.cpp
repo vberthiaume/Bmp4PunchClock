@@ -37,7 +37,7 @@
 
 using namespace std;
 
-static const string FILEPATH = "~Dropbox/PunchClockHours.csv";
+static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
 
 enum Projects {
     GRIS = 0,
@@ -82,21 +82,24 @@ class Bmp4PunchClock {
     
     ofstream fileOutputStream;
     
+    bool mProjectJustSelected;
+    
     void punchIn(){
         bIsPunchedIn = true;
         punchInTime = chrono::system_clock::now();
         
         string strPunchInTime = time2string(punchInTime);
-        cout << "Punched in at " << strPunchInTime << "\n";
+        cout << "PUNCHED IN at " << strPunchInTime << "\n";
         
         fileOutputStream << strPunchInTime << " - ";
+        mProjectJustSelected = false;
     }
     
     void punchOut(){
         bIsPunchedIn = false;
         
         punchOutTime = chrono::system_clock::now();
-        cout << "Punched out at " << time2string(punchOutTime) << "\n";
+        cout << "PUNCHED OUT at " << time2string(punchOutTime) << "\n";
         
         string strPunchOutTime = time2string(punchOutTime);
         
@@ -170,9 +173,6 @@ public:
     
     bool projectSelection(){
         
-        
-        
-        
         cout << "************ BMP4 PUNCH CLOCK ************\n\n\n";
         cout << "Pick the project you want to work on!\n";
         for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
@@ -199,6 +199,8 @@ public:
         fileOutputStream << "--------------------------------\n";
         fileOutputStream << ProjectNames[iSelectedProject] << " - " << time2date(now) << "\n";
         
+        mProjectJustSelected = true;
+        
         return true;
     }
     
@@ -207,12 +209,17 @@ public:
         cout << "Type <p> to punch in and out, or <q> to exit.\n\n";
         do {
             strSelectedOption = "";
-            do {
-                cout << ">";
-                cin >> strSelectedOption;
-                
-            } while (strSelectedOption != "p" && strSelectedOption != "q");
             
+            //if project was just selected, we skip this and punch in right away
+            if (!mProjectJustSelected){
+                do {
+                    cout << ">";
+                    cin >> strSelectedOption;
+                    
+                } while (strSelectedOption != "p" && strSelectedOption != "q");
+            } else {
+                mProjectJustSelected = false;
+            }
             if (bIsPunchedIn){
                 punchOut();
             }  else if (strSelectedOption != "q"){
