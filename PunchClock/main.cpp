@@ -26,6 +26,7 @@
 //  SOFTWARE.
 //
 
+
 #include <iostream>
 #include <fstream>
 #include <chrono>  // chrono::system_clock
@@ -37,7 +38,7 @@
 
 using namespace std;
 
-static const string FILEPATH = "~Dropbox/PunchClockHours.csv";
+static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours.csv";
 
 enum Projects {
     GRIS = 0,
