@@ -22,7 +22,7 @@
 # files that we want to exclude
 #
 #########################
-
+".sBMP4 reaper project"/
 #####
 # OS X temporary files that should never be committed
 #
