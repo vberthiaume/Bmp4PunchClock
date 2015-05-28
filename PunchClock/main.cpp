@@ -38,20 +38,25 @@
 
 using namespace std;
 
-
-static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours.csv";
+#if WIN32
+    static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours.csv";
+#else
+    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
+#endif
 
 enum Projects {
     GRIS = 0,
     sBMP4,
     SonicBirth,
+    Linux,
     TotalProjectCount
 };
 
 static string ProjectNames[] = {
     "GRIS",
     "sBMP4",
-    "SonicBirth"
+    "SonicBirth",
+    "Linux"
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time)
