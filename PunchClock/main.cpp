@@ -38,7 +38,7 @@
 
 using namespace std;
 
-#if WIN32
+#if _WIN32
     static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours.csv";
 #else
     static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
