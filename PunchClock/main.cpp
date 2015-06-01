@@ -38,10 +38,16 @@
 
 using namespace std;
 
-#if _WIN32
+#ifdef _WIN32
     static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours.csv";
-#else
-    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
+#endif
+
+#ifdef __APPLE__
+    	static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
+#endif
+
+#ifdef __linux__
+	static const string FILEPATH = "/home/vberthiaume/Dropbox/PunchClockHours.csv";
 #endif
 
 enum Projects {
@@ -64,7 +70,7 @@ static string time2string(chrono::time_point<chrono::system_clock> p_time)
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
     
     stringstream ss;
-    ss << put_time(localtime(&in_time_t), "%X");
+    ss << std::put_time(localtime(&in_time_t), "%X");
     return ss.str();
 }
 
