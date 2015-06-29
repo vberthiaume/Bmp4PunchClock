@@ -39,15 +39,15 @@
 using namespace std;
 
 #ifdef _WIN32
-    static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours.csv";
+    static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours";
 #endif
 
 #ifdef __APPLE__
-    	static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours.csv";
+    	static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
 #endif
 
 #ifdef __linux__
-	static const string FILEPATH = "/home/vberthiaume/Dropbox/PunchClockHours.csv";
+	static const string FILEPATH = "/home/vberthiaume/Dropbox/PunchClockHours";
 #endif
 
 enum Projects {
@@ -150,11 +150,7 @@ public:
     Bmp4PunchClock():
     bIsPunchedIn(false),
     iSelectedProject(-1) {
-        fileOutputStream = ofstream(FILEPATH, ios::app);
-        if(!fileOutputStream){
-            cerr << "ERROR: Cannot open file: " << FILEPATH << "\n";
-            exit(1);
-        }
+        
     }
     
     ~Bmp4PunchClock(){
@@ -207,6 +203,13 @@ public:
         } while (iSelectedProject < 0 || iSelectedProject >= TotalProjectCount);
         
         cout << "OK, good luck with: " << ProjectNames[iSelectedProject] << "! ";
+
+		string wholeFilePath = FILEPATH + ProjectNames[iSelectedProject] + ".csv";
+		fileOutputStream = ofstream(wholeFilePath, ios::app);
+		if (!fileOutputStream){
+			cerr << "ERROR: Cannot open file: " << wholeFilePath << "\n";
+			exit(1);
+		}
         
         now = chrono::system_clock::now();
         fileOutputStream << "--------------------------------\n";
