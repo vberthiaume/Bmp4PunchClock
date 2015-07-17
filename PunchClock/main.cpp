@@ -43,7 +43,7 @@ using namespace std;
 #endif
 
 #ifdef __APPLE__
-    	static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
+    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
 #endif
 
 #ifdef __linux__
@@ -126,7 +126,7 @@ class Bmp4PunchClock {
         
         calculateTime(elapsedTime);
         
-        cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
+        //cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
         
         fileOutputStream << "," << hours << ":" << minutes << ":" << seconds << "\n";
     }
