@@ -88,7 +88,6 @@ class Bmp4PunchClock {
     bool bIsPunchedIn;
     chrono::time_point<chrono::system_clock> now, punchInTime, punchOutTime;
     chrono::duration<double> elapsedTime;
-    
     string strSelectedOption;
     vector<long> vAllTimes;
     long hours, minutes, seconds;
@@ -112,7 +111,7 @@ class Bmp4PunchClock {
         bIsPunchedIn = false;
         
         punchOutTime = chrono::system_clock::now();
-        cout << "PUNCHED OUT at " << time2string(punchOutTime) << "\n";
+        cout << "PUNCHED OUT at " << time2string(punchOutTime);
         
         string strPunchOutTime = time2string(punchOutTime);
         
@@ -129,6 +128,17 @@ class Bmp4PunchClock {
         //cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
         
         fileOutputStream << "," << hours << ":" << minutes << ":" << seconds << "\n";
+        sumUp();
+        
+    }
+    
+    void sumUp(){
+        long totalTime = 0;
+        for (auto it = vAllTimes.begin(); it != vAllTimes.end(); ++it){
+            totalTime += *it;
+        }
+        calculateTime(totalTime);
+        cout << "; " << hours << ":" << minutes << ":" << seconds << "\n";
     }
     
     void calculateTime(long elapsedTime){
@@ -150,7 +160,7 @@ public:
     Bmp4PunchClock():
     bIsPunchedIn(false),
     iSelectedProject(-1) {
-        
+
     }
     
     ~Bmp4PunchClock(){
@@ -173,7 +183,7 @@ public:
         
         cout << "You worked a total of : "  << hours << ":" << minutes << ":" << seconds << " on project " << ProjectNames[iSelectedProject] << "\n";
         
-        now = chrono::system_clock::now();
+//        now = chrono::system_clock::now();
         
         fileOutputStream << "TOTAL,,"  << hours << ":" << minutes << ":" << seconds << "\n";
         
