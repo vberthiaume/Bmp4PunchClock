@@ -104,6 +104,7 @@ class Bmp4PunchClock {
         cout << "PUNCHED IN at " << strPunchInTime << "\n";
         
         fileOutputStream << strPunchInTime << " - ";
+        fileOutputStream.flush();
         mProjectJustSelected = false;
     }
     
@@ -128,6 +129,7 @@ class Bmp4PunchClock {
         //cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
         
         fileOutputStream << "," << hours << ":" << minutes << ":" << seconds << "\n";
+        fileOutputStream.flush();
         sumUp();
         
     }
@@ -224,7 +226,7 @@ public:
         now = chrono::system_clock::now();
         fileOutputStream << "--------------------------------\n";
         fileOutputStream << ProjectNames[iSelectedProject] << " - " << time2date(now) << "\n";
-        
+        fileOutputStream.flush();
         mProjectJustSelected = true;
         
         return true;
