@@ -43,7 +43,7 @@ using namespace std;
 #endif
 
 #ifdef __APPLE__
-    static const string FILEPATH = "/Users/vincent/Documents/git/PunchClockHours";
+    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
 #endif
 
 #ifdef __linux__
