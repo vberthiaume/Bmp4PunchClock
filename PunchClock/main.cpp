@@ -55,6 +55,7 @@ enum Projects {
     sBMP4,
     SonicBirth,
     Linux,
+    Sound,
     TotalProjectCount
 };
 
@@ -62,7 +63,8 @@ static string ProjectNames[] = {
     "GRIS",
     "sBMP4",
     "SonicBirth",
-    "Linux"
+    "Linux",
+    "Sound"
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time)
