@@ -1,0 +1,5 @@
+ok. so I need to convert my string time to a duration in seconds
+then sum those. 
+
+
+
