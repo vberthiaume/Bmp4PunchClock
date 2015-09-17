@@ -324,7 +324,7 @@ public:
     
     void waitForPunches(){
         // ------------------ PUNCH IN AND OUT ------------------
-        cout << "Type <p> to punch in and out, or <q> to exit.\n\n";
+        cout << "Type <p> to punch in and out, s to view current sum of hours, or <q> to exit.\n\n";
         do {
             m_strSelectedOption = "";
             
