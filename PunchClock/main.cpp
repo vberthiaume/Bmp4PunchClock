@@ -68,19 +68,30 @@ static string ProjectNames[] = {
     "Sound"
 };
 
-static string time2string(chrono::time_point<chrono::system_clock> p_time)
-{
+static string time2string(chrono::time_point<chrono::system_clock> p_time){
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
-    
     stringstream ss;
     ss << std::put_time(localtime(&in_time_t), "%X");
     return ss.str();
 }
 
-static string time2date(chrono::time_point<chrono::system_clock> p_time)
-{
-    auto in_time_t = chrono::system_clock::to_time_t(p_time);
+
+static chrono::time_point<chrono::system_clock> string2hours(string p_time){
     
+//    tm tm;
+////    std::stringstream ss("Jan 9 2014 12:35:34");
+////    ss >> std::get_time(&tm, "%b %d %Y %H:%M:%S");
+//    stringstream ss("12:35:34");
+//    ss >> get_time(&tm, "%H:%M:%S");
+//    return chrono::system_clock::from_time_t(std::mktime(&tm));
+    
+    std::tm tm;
+    strptime("Thu Jan 9 12:35:34 2014", "%a, %d %b %Y %H:%M:%S", &tm);
+    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
+}
+
+static string time2date(chrono::time_point<chrono::system_clock> p_time){
+    auto in_time_t = chrono::system_clock::to_time_t(p_time);
     stringstream ss;
     ss << put_time(localtime(&in_time_t), "%Y-%m-%d");
     return ss.str();
@@ -160,9 +171,8 @@ class Bmp4PunchClock {
 
     int iSelectedProject;
     bool m_bMoreOptions;
-public:
 
-    
+public:
     Bmp4PunchClock()
     :bIsPunchedIn(false)
     ,iSelectedProject(-1)
@@ -264,7 +274,7 @@ public:
         } while (strSelectedOption != "q");
     }
 };
-
+//----------------------------------------------------------------------------------------
 static void sumTime(){
     //go through lines and search for
         //project name (in enum)
@@ -273,25 +283,70 @@ static void sumTime(){
     //store all this stuff in vectors or something
     //then go through the vectors, searching for
     
-    
     //open FILEPATH directory
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("/Users/nicolai/Dropbox/")) == NULL) {
+    string DIR_PATH("/Users/nicolai/Dropbox/");
+    if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
         cerr << "could not open directory";
         return;
     }
     //find all files containing PunchClockHours
     while ((ent = readdir (dir)) != NULL) {
-        std::string fileName(ent->d_name);
-        if (fileName.find("PunchClockHours") != std::string::npos){
-            
-            cout << fileName << endl;
+        string fileName(ent->d_name);
+        if (fileName.find("PunchClockHours") != string::npos){
+            //see which project we have
+            for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject) {
+                if (fileName.find(ProjectNames[iCurProject]) != string::npos){
+                    ifstream file(DIR_PATH + fileName);
+                    if (!file.is_open()){
+                        return;
+                    }
+                    
+                    
+                    //i can't figure out what type to use to sum individual times
+                    chrono::duration<double> projectTotalTime;
+                    
+                    
+                    
+                    
+                    //go through lines, searching for current project name
+                    string line;
+                    while (getline(file, line)){
+                        if(line.find(ProjectNames[iCurProject]) != string::npos){
+                            size_t dashPos = line.find(" - ");
+                            string date = line.substr (dashPos+3);
+                            cout << ProjectNames[iCurProject] << "\t" << date;
+                            //search for total time for that date
+                            while (getline(file, line)){
+                                size_t timePos = line.find("TOTAL,,");
+                                if(timePos != string::npos){
+                                    string time = line.substr (timePos+7);
+                                    cout << "\t" << time << "\n";
+                                    
+                                    
+                                    //this conversion is not working, not sure why
+                                    chrono::time_point<chrono::system_clock> curDayTime = string2hours(time);
+                                    
+                                    //this operation is invalid, not sure why
+//                                    projectTotalTime += curDayTime;
+                                    //this always prints the same time, not sure why
+//                                    cout << "\t" << time2string(curDayTime) << "\n";
+                                    
+                                    
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    file.close();
+                }
+            }
         }
     }
     closedir (dir);
 }
-
+//----------------------------------------------------------------------------------------
 int main(int argc, const char * argv[]) {
     Bmp4PunchClock punchClock;
     if (punchClock.projectSelection()){
