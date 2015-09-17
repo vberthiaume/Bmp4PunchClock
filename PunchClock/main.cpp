@@ -35,6 +35,7 @@
 #include <string>  // string
 #include <vector>
 #include <math.h>
+#include <dirent.h>
 
 using namespace std;
 
@@ -157,14 +158,16 @@ class Bmp4PunchClock {
         calculateTime(chrono::duration_cast<chrono::seconds>(elapsedTime).count());
     }
 
-public:
-    
     int iSelectedProject;
-    
-    Bmp4PunchClock():
-    bIsPunchedIn(false),
-    iSelectedProject(-1) {
+    bool m_bMoreOptions;
+public:
 
+    
+    Bmp4PunchClock()
+    :bIsPunchedIn(false)
+    ,iSelectedProject(-1)
+    ,m_bMoreOptions(false)
+    {
     }
     
     ~Bmp4PunchClock(){
@@ -177,6 +180,10 @@ public:
         }
     }
     
+    bool isAskingMoreOption(){
+        return m_bMoreOptions;
+    }
+    
     void wrapup(){
         long totalTime = 0;
         for (auto it = vAllTimes.begin(); it != vAllTimes.end(); ++it){
@@ -184,20 +191,17 @@ public:
         }
         
         calculateTime(totalTime);
-        
         cout << "You worked a total of : "  << hours << ":" << minutes << ":" << seconds << " on project " << ProjectNames[iSelectedProject] << "\n";
         
 //        now = chrono::system_clock::now();
         
         fileOutputStream << "TOTAL,,"  << hours << ":" << minutes << ":" << seconds << "\n";
-        
         fileOutputStream.close();
     }
     
     bool projectSelection(){
-        
         cout << "************ BMP4 PUNCH CLOCK ************\n\n\n";
-        cout << "Pick the project you want to work on!\n";
+        cout << "Pick the project you want to work on, or type m for more options!\n";
         for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
             cout << "[" << iCurProject << "] " <<  ProjectNames[iCurProject] << "\n";
         }
@@ -208,6 +212,9 @@ public:
 
             cin >> aSelectedProject;
             if (aSelectedProject == 'q'){
+                return false;
+            } else if (aSelectedProject == 'm'){
+                m_bMoreOptions = true;
                 return false;
             } else if (isalpha(aSelectedProject)){
                 continue;
@@ -245,7 +252,6 @@ public:
                 do {
                     cout << ">";
                     cin >> strSelectedOption;
-                    
                 } while (strSelectedOption != "p" && strSelectedOption != "q");
             } else {
                 mProjectJustSelected = false;
@@ -255,22 +261,44 @@ public:
             }  else if (strSelectedOption != "q"){
                 punchIn();
             }
-            
         } while (strSelectedOption != "q");
-        
     }
-    
-
 };
 
+static void sumTime(){
+    //go through lines and search for
+        //project name (in enum)
+        //date
+        //TOTAL,, time
+    //store all this stuff in vectors or something
+    //then go through the vectors, searching for
+    
+    
+    //open FILEPATH directory
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir ("/Users/nicolai/Dropbox/")) == NULL) {
+        cerr << "could not open directory";
+        return;
+    }
+    //find all files containing PunchClockHours
+    while ((ent = readdir (dir)) != NULL) {
+        std::string fileName(ent->d_name);
+        if (fileName.find("PunchClockHours") != std::string::npos){
+            
+            cout << fileName << endl;
+        }
+    }
+    closedir (dir);
+}
+
 int main(int argc, const char * argv[]) {
-    
     Bmp4PunchClock punchClock;
-    
     if (punchClock.projectSelection()){
         punchClock.waitForPunches();
         punchClock.wrapup();
+    } else if (punchClock.isAskingMoreOption()){
+        sumTime();
     }
-    
     return 0;
 }
