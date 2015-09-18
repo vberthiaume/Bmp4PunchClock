@@ -19,6 +19,12 @@ Times are written in a file for later reference, e.g.,
     20:56:03 - 20:56:11, 0:0:7
     TOTAL 0:0:9
 
+
+#Installation note
+To compile with visual studio, you need to install the Dirent API:
+http://www.softagalleria.net/dirent.php
+
+
 The MIT License (MIT)
 
 Copyright (c) 2015 Vincent Berthiaume

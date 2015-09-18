@@ -121,9 +121,10 @@ static void sumTime(){
     //open FILEPATH directory
     DIR *dir;
     struct dirent *ent;
+    //FILEPATH
     string DIR_PATH("/Users/nicolai/Dropbox/");
     if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
-        cerr << "could not open directory";
+        cerr << "Error: could not open directory: " << DIR_PATH << ". Please make sure this path is correct.\n";
         return;
     }
     //find all files containing PunchClockHours
