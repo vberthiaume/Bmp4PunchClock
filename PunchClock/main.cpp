@@ -122,7 +122,8 @@ static void sumTime(){
     DIR *dir;
     struct dirent *ent;
     //FILEPATH
-    string DIR_PATH("/Users/nicolai/Dropbox/");
+    //string DIR_PATH("/Users/nicolai/Dropbox/");
+    string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
     if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
         cerr << "Error: could not open directory: " << DIR_PATH << ". Please make sure this path is correct.\n";
         return;
@@ -139,26 +140,21 @@ static void sumTime(){
                         return;
                     }
                     long lProjectTotalTimeInSec = 0;
-                    
                     //go through lines, searching for current project name
                     string line;
                     while (getline(file, line)){
                         if(line.find(ProjectNames[iCurProject]) != string::npos){
                             size_t dashPos = line.find(" - ");
                             string date = line.substr (dashPos+3);
-                            //cout << ProjectNames[iCurProject] << "\t" << date;
                             //search for total time for that date
                             while (getline(file, line)){
                                 size_t timePos = line.find("TOTAL,,");
                                 if(timePos != string::npos){
-                                    
                                     //read line in format HH:MM:SS
                                     string time = line.substr (timePos+7);
-                                    
                                     //string to s,m,h
                                     long s,m,h;
                                     string2HMS(time, s,m,h);
-                                    
                                     //smh to total seconds
                                     lProjectTotalTimeInSec += SMH2Sec(s,m,h);
                                     break;
