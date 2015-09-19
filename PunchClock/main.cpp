@@ -121,59 +121,62 @@ static void sumTime(){
     //open FILEPATH directory
     DIR *dir;
     struct dirent *ent;
-    //FILEPATH
-    //string DIR_PATH("/Users/nicolai/Dropbox/");
     string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
     if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
         cerr << "Error: could not open directory: " << DIR_PATH << ". Please make sure this path is correct.\n";
         return;
     }
-    //find all files containing PunchClockHours
+
+    long lAllTimes[TotalProjectCount] = {0};
+
+    //go through all files
     while ((ent = readdir (dir)) != NULL) {
         string fileName(ent->d_name);
-        if (fileName.find("PunchClockHours") != string::npos){
-            //see which project we have
-            for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject) {
-                if (fileName.find(ProjectNames[iCurProject]) != string::npos){
-                    ifstream file(DIR_PATH + fileName);
-                    if (!file.is_open()){
-                        return;
-                    }
-                    long lProjectTotalTimeInSec = 0;
-                    //go through lines, searching for current project name
-                    string line;
-                    while (getline(file, line)){
-                        if(line.find(ProjectNames[iCurProject]) != string::npos){
-                            size_t dashPos = line.find(" - ");
-                            string date = line.substr (dashPos+3);
-                            //search for total time for that date
-                            while (getline(file, line)){
-                                size_t timePos = line.find("TOTAL,,");
-                                if(timePos != string::npos){
-                                    //read line in format HH:MM:SS
-                                    string time = line.substr (timePos+7);
-                                    //string to s,m,h
-                                    long s,m,h;
-                                    string2HMS(time, s,m,h);
-                                    //smh to total seconds
-                                    lProjectTotalTimeInSec += SMH2Sec(s,m,h);
-                                    break;
-                                }
+        //for each project
+        for(int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject) {
+            //find files for that project
+            if(fileName.find("PunchClockHours") != string::npos && fileName.find(ProjectNames[iCurProject]) != string::npos){
+                ifstream file(DIR_PATH + fileName);
+                if(!file.is_open()){
+                    return;
+                }
+                //go through lines, searching for current project name
+                string line;
+                while(getline(file, line)){
+                    if(line.find(ProjectNames[iCurProject]) != string::npos){
+                        size_t dashPos = line.find(" - ");
+                        string date = line.substr(dashPos+3);
+                        //search for total time for that date
+                        while(getline(file, line)){
+                            size_t timePos = line.find("TOTAL,,");
+                            if(timePos != string::npos){
+                                //read line in format HH:MM:SS
+                                string time = line.substr(timePos+7);
+                                //string to s,m,h
+                                long s, m, h;
+                                string2HMS(time, s, m, h);
+                                //smh to total seconds
+                                lAllTimes[iCurProject] += SMH2Sec(s, m, h);
+                                break;
                             }
                         }
                     }
-                    //convert time in seconds to readable time
-                    long s,m,h;
-                    sec2SMH(lProjectTotalTimeInSec, s,m,h);
-                    
-                    cout << ProjectNames[iCurProject] << "\t" << h << ":" << m << ":" << s << endl;
-                    
-                    file.close();
                 }
+                file.close();
             }
         }
     }
     closedir (dir);
+
+    //if we found some hours
+    for(size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
+        if(lAllTimes[iCurProject] != 0){
+            //convert time in seconds to readable time
+            long s, m, h;
+            sec2SMH(lAllTimes[iCurProject], s, m, h);
+            cout << ProjectNames[iCurProject] << "\t" << h << ":" << m << ":" << s << endl;
+        }
+    }
 }
 
 class Bmp4PunchClock {
