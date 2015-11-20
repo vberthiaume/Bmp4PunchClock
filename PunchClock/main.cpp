@@ -189,6 +189,11 @@ static void sumTime(){
             cout << ProjectNames[iCurProject] << "\t" << h << ":" << m << ":" << s << endl;
         }
     }
+    if(lAllTimeToday != 0){
+        long s, m, h;
+        sec2SMH(lAllTimeToday, s, m, h);
+        cout << "Today's total:\t" << h << ":" << m << ":" << s << endl;
+    }
 }
 
 class Bmp4PunchClock {
