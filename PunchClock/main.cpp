@@ -128,6 +128,10 @@ static void sumTime(){
     }
 
     long lAllTimes[TotalProjectCount] = {0};
+    long lAllTimeToday = 0;
+
+    auto curTime = chrono::system_clock::now();
+    string todayStr = time2date(curTime);
 
     //go through all files
     while ((ent = readdir (dir)) != NULL) {
@@ -146,6 +150,10 @@ static void sumTime(){
                     if(line.find(ProjectNames[iCurProject]) != string::npos){
                         size_t dashPos = line.find(" - ");
                         string date = line.substr(dashPos+3);
+                        bool bIsToday = false;
+                        if(todayStr.compare(date) == 0){
+                            bIsToday = true;
+                        }
                         //search for total time for that date
                         while(getline(file, line)){
                             size_t timePos = line.find("TOTAL,,");
@@ -156,7 +164,11 @@ static void sumTime(){
                                 long s, m, h;
                                 string2HMS(time, s, m, h);
                                 //smh to total seconds
-                                lAllTimes[iCurProject] += SMH2Sec(s, m, h);
+                                long lTimeSecs = SMH2Sec(s, m, h);
+                                    lAllTimes[iCurProject] += lTimeSecs;
+                                if(bIsToday){
+                                    lAllTimeToday += lTimeSecs;
+                                }
                                 break;
                             }
                         }
@@ -189,6 +201,8 @@ class Bmp4PunchClock {
     long m_lHours, m_lMinutes, m_lSeconds;
     ofstream m_oFileOutputStream;
     bool m_bProjectJustSelected;
+    int iSelectedProject;
+    bool m_bMoreOptions;
     
     void punchIn(){
         bIsPunchedIn = true;
@@ -201,33 +215,21 @@ class Bmp4PunchClock {
         m_oFileOutputStream.flush();
         m_bProjectJustSelected = false;
     }
-    
     void punchOut(){
         bIsPunchedIn = false;
-        
         m_oPunchOutTime = chrono::system_clock::now();
         cout << "PUNCHED OUT at " << time2string(m_oPunchOutTime);
-        
         string strPunchOutTime = time2string(m_oPunchOutTime);
-        
         m_oFileOutputStream << strPunchOutTime;
-        
         m_oElapsedTime = m_oPunchOutTime - m_oPunchInTime;
-        
         //elapsedTime = chrono::seconds(3661);
-        
         m_vAllTimes.push_back(chrono::duration_cast<chrono::seconds>(m_oElapsedTime).count());
-        
         calculateTime(m_oElapsedTime);
-        
         //cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
-        
         m_oFileOutputStream << "," << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
         m_oFileOutputStream.flush();
         sumUp();
-        
     }
-    
     void sumUp(){
         long totalTime = 0;
         for (auto it = m_vAllTimes.begin(); it != m_vAllTimes.end(); ++it){
@@ -236,13 +238,9 @@ class Bmp4PunchClock {
         ::sec2SMH(totalTime, m_lSeconds, m_lMinutes, m_lHours);
         cout << "; " << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
     }
-    
     void calculateTime(chrono::duration<double> elapsedTime){
         ::sec2SMH(chrono::duration_cast<chrono::seconds>(elapsedTime).count(), m_lSeconds, m_lMinutes, m_lHours);
     }
-
-    int iSelectedProject;
-    bool m_bMoreOptions;
 
 public:
     Bmp4PunchClock()
@@ -251,12 +249,10 @@ public:
     ,m_bMoreOptions(false)
     {
     }
-    
     ~Bmp4PunchClock(){
         if (bIsPunchedIn){
             punchOut();
         }
-        
         if (m_oFileOutputStream.is_open()){
             m_oFileOutputStream.close();
         }
@@ -274,9 +270,6 @@ public:
         
         ::sec2SMH(totalTime, m_lSeconds, m_lMinutes, m_lHours);
         cout << "You worked a total of : "  << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << " on project " << ProjectNames[iSelectedProject] << "\n";
-        
-//        now = chrono::system_clock::now();
-        
         m_oFileOutputStream << "TOTAL,,"  << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
         m_oFileOutputStream.close();
     }
@@ -291,7 +284,6 @@ public:
         char aSelectedProject;
         do {
             cout << ">";
-
             cin >> aSelectedProject;
             if (aSelectedProject == 'q'){
                 return false;
