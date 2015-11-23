@@ -129,6 +129,7 @@ static void sumTime(){
 
     long lAllTimes[TotalProjectCount] = {0};
     long lAllTimeToday = 0;
+    long lAllTimesTotal = 0;
 
     auto curTime = chrono::system_clock::now();
     string todayStr = time2date(curTime);
@@ -165,7 +166,8 @@ static void sumTime(){
                                 string2HMS(time, s, m, h);
                                 //smh to total seconds
                                 long lTimeSecs = SMH2Sec(s, m, h);
-                                    lAllTimes[iCurProject] += lTimeSecs;
+                                lAllTimes[iCurProject] += lTimeSecs;
+                                lAllTimesTotal += lTimeSecs;
                                 if(bIsToday){
                                     lAllTimeToday += lTimeSecs;
                                 }
@@ -191,8 +193,11 @@ static void sumTime(){
     }
     if(lAllTimeToday != 0){
         long s, m, h;
+        sec2SMH(lAllTimesTotal, s, m, h);
+        cout << "-------------------------\n";
+        cout << "TOTAL:\t" << h << ":" << m << ":" << s << endl;
         sec2SMH(lAllTimeToday, s, m, h);
-        cout << "Today's total:\t" << h << ":" << m << ":" << s << endl;
+        cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
     }
 }
 
