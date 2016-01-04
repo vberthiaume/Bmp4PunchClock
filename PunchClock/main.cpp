@@ -41,7 +41,7 @@
 using namespace std;
 
 #ifdef _WIN32
-    static const string FILEPATH = "C:/Users/Vincent/Dropbox/PunchClockHours";
+    static const string FILEPATH = "C:/Users/barth/Dropbox/PunchClockHours";
 #endif
 
 #ifdef __APPLE__
