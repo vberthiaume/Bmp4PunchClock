@@ -37,6 +37,7 @@
 #include <vector>
 #include <math.h>
 #include <dirent.h>
+#include <locale> 
 
 using namespace std;
 
@@ -206,13 +207,14 @@ class Bmp4PunchClock {
     bool bIsPunchedIn;
     chrono::time_point<chrono::system_clock> m_oNow, m_oPunchInTime, m_oPunchOutTime;
     chrono::duration<double> m_oElapsedTime;
-    string m_strSelectedOption;
+    char m_strSelectedOption;
     vector<long> m_vAllTimes;
     long m_lHours, m_lMinutes, m_lSeconds;
     ofstream m_oFileOutputStream;
     bool m_bProjectJustSelected;
     int iSelectedProject;
     bool m_bMoreOptions;
+	locale loc;
     
     void punchIn(){
         bIsPunchedIn = true;
@@ -295,6 +297,7 @@ public:
         do {
             cout << ">";
             cin >> aSelectedProject;
+			aSelectedProject = tolower(aSelectedProject, loc); //change to lowercase, if need be
             if (aSelectedProject == 'q'){
                 return false;
             } else if (aSelectedProject == 's'){
@@ -328,28 +331,28 @@ public:
         // ------------------ PUNCH IN AND OUT ------------------
         cout << "Type <p> to punch in and out, s to view current sum of hours, or <q> to exit.\n\n";
         do {
-            m_strSelectedOption = "";
+            //m_strSelectedOption = '';
             
             //if project was just selected, we skip this and punch in right away
             if (!m_bProjectJustSelected){
                 do {
                     cout << ">";
                     cin >> m_strSelectedOption;
-                    
-                    if (m_strSelectedOption == "s"){
+					m_strSelectedOption = tolower(m_strSelectedOption, loc); //change to lowercase, if need be
+                    if (m_strSelectedOption == 's'){
                         sumTime();
                     }
                     
-                } while (m_strSelectedOption != "p" && m_strSelectedOption != "q");
+                } while (m_strSelectedOption != 'p' && m_strSelectedOption != 'q');
             } else {
                 m_bProjectJustSelected = false;
             }
             if (bIsPunchedIn){
                 punchOut();
-            }  else if (m_strSelectedOption != "q"){
+            }  else if (m_strSelectedOption != 'q'){
                 punchIn();
             }
-        } while (m_strSelectedOption != "q");
+        } while (m_strSelectedOption != 'q');
     }
 };
 
