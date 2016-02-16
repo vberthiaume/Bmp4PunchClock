@@ -71,15 +71,17 @@ enum Projects {
     SonicBirth,
     Linux,
     Sound,
+	Babies,
     TotalProjectCount
 };
 
-static string ProjectNames[] = {
-    "GRIS",
-    "sBMP4",
-    "SonicBirth",
-    "Linux",
-    "Sound"
+static string ProjectNames[] = 
+	{"GRIS"
+    ,"sBMP4"
+    ,"SonicBirth"
+    ,"Linux"
+    ,"Sound"
+	,"Babies"
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
