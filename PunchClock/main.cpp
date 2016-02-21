@@ -26,7 +26,6 @@
 //  SOFTWARE.
 //
 
-
 #include <iostream>
 #include <fstream>
 #include <chrono>  // chrono::system_clock
@@ -62,8 +61,6 @@ using namespace std;
 #include <unistd.h>
 #define GetCurrentDir getcwd
 #endif
-
-
 
 enum Projects {
     GRIS = 0,
@@ -217,14 +214,12 @@ static void sumTime(){
             cout << ProjectNames[iCurProject] << "\t" << h << ":" << m << ":" << s << endl;
         }
     }
-    //if(lAllTimeToday != 0){
         long s, m, h;
         sec2SMH(lAllTimesTotal, s, m, h);
         cout << "-------------------------\n";
         cout << "TOTAL:\t" << h << ":" << m << ":" << s << endl;
         sec2SMH(lAllTimeToday, s, m, h);
         cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
-    //}
 }
 
 class Bmp4PunchClock {
@@ -262,7 +257,6 @@ class Bmp4PunchClock {
         //elapsedTime = chrono::seconds(3661);
         m_vAllTimes.push_back(chrono::duration_cast<chrono::seconds>(m_oElapsedTime).count());
         calculateTime(m_oElapsedTime);
-        //cout << "time elapsed since last punch-in: "  << hours << ":" << minutes << ":" << seconds << "\n";
         m_oFileOutputStream << "," << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
         m_oFileOutputStream.flush();
         sumUp();
@@ -356,8 +350,6 @@ public:
         // ------------------ PUNCH IN AND OUT ------------------
         cout << "Type <p> to punch in and out, s to view current sum of hours, or <q> to exit.\n\n";
         do {
-            //m_strSelectedOption = '';
-            
             //if project was just selected, we skip this and punch in right away
             if (!m_bProjectJustSelected){
                 do {
@@ -380,10 +372,6 @@ public:
         } while (m_strSelectedOption != 'q');
     }
 };
-
-
-
-
 //----------------------------------------------------------------------------------------
 int main(int argc, const char * argv[]) {
     Bmp4PunchClock punchClock;
