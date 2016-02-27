@@ -131,20 +131,24 @@ static long SMH2Sec(const long &p_lS, const long &p_lM, const long &p_lH){
 
 static void sumTime(){
 
-	//get current directory
-	char cCurrentPath[FILENAME_MAX];
-	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
-		cout << "cannot find current directory\n";
-	}
-	cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
-	cout << "Summing hours from: " << cCurrentPath << endl;
-
     //open current directory
     DIR *dir;
     struct dirent *ent;
-    //string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
-	string DIR_PATH = string(cCurrentPath);
-	DIR_PATH.append("\\");
+    
+#if WIN32
+    //get current directory
+    char cCurrentPath[FILENAME_MAX];
+    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
+        cout << "cannot find current directory\n";
+    }
+    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
+    cout << "Summing hours from: " << cCurrentPath << endl;
+    string DIR_PATH = string(cCurrentPath);
+    DIR_PATH.append("\\");
+#else
+	string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
+#endif
+
     if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
         cerr << "Error: could not open directory: " << DIR_PATH << ". Please make sure this path is correct.\n";
         return;
