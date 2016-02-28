@@ -378,6 +378,12 @@ public:
 };
 //----------------------------------------------------------------------------------------
 int main(int argc, const char * argv[]) {
+    
+    if (argc == 2){
+        //argv[0] is the full path of the current program
+        cout << argv[1];
+    }
+    
     Bmp4PunchClock punchClock;
     if (punchClock.projectSelection()){
         punchClock.waitForPunches();
