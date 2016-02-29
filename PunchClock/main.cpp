@@ -135,7 +135,7 @@ static void sumTime(){
     DIR *dir;
     struct dirent *ent;
     
-#if WIN32
+#ifdef WIN32
     //get current directory
     char cCurrentPath[FILENAME_MAX];
     if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
@@ -381,7 +381,9 @@ int main(int argc, const char * argv[]) {
     
     if (argc == 2){
         //argv[0] is the full path of the current program
-        cout << argv[1];
+		string path(argv[1]);
+        cout << path;
+
     }
     
     Bmp4PunchClock punchClock;
