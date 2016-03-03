@@ -63,13 +63,14 @@ using namespace std;
 #endif
 
 enum Projects {
-    GRIS = 0,
-    sBMP4,
-    SonicBirth,
-    Linux,
-    Sound,
-	Babies,
-    TotalProjectCount
+    GRIS = 0
+    ,sBMP4
+    ,SonicBirth
+    ,Linux
+    ,Music
+	,Babies
+	,AiSound
+    ,TotalProjectCount
 };
 
 static string ProjectNames[] = 
@@ -77,8 +78,9 @@ static string ProjectNames[] =
     ,"sBMP4"
     ,"SonicBirth"
     ,"Linux"
-    ,"Sound"
+    ,"Music"
 	,"Babies"
+	,"AI+Sound"
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
