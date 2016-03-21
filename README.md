@@ -23,6 +23,7 @@ Times are written in a file for later reference, e.g.,
 #Installation note
 To compile with visual studio, you need to install the Dirent API:
 http://www.softagalleria.net/dirent.php
+
 Also, punchclock now uses the current folder for creating new files, reading current times, and summing them.
 
 
