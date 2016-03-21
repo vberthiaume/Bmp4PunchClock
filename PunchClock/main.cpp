@@ -383,10 +383,14 @@ int main(int argc, const char * argv[]) {
 
     //mac /Users/nicolai/Library/Developer/Xcode/DerivedData/PunchClock-anbnsofaiqcedlfmvthuvqmvwqrb/Build/Products/Debug/PunchClock
 	//pc C:\Users\barth\Documents\git\Bmp4PunchClock\Bmp4PunchClockVS\Debug\Bmp4PunchClockVS.exe
-
+#ifdef WIN32
+	string folderChar = "\\";
+#else
+	string folderChar = "/";
+#endif
     string path(argv[0]);
     cout << path << endl;
-	cout << path.substr(0,path.find("PunchClock")) << endl;
+	cout << path.substr(0,path.find(folderChar+"PunchClock")) << endl;
     
     Bmp4PunchClock punchClock;
     if (punchClock.projectSelection()){
