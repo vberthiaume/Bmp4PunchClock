@@ -40,6 +40,15 @@
 
 using namespace std;
 
+//----------------------------------------- STATIC STUFF -------------------------------------------
+#ifdef WIN32
+string s_strFolderDelimiter = "\\";
+#else
+string s_strFolderDelimiter = "/";
+#endif
+
+
+
 #ifdef _WIN32
     static const string FILEPATH = "C:/Users/barth/Dropbox/PunchClockHours";
 #endif
@@ -174,7 +183,7 @@ static void sumTime(string p_strCurFolder){
         for(int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject) {
             //find files for that project
             if(fileName.find("PunchClockHours") != string::npos && fileName.find(ProjectNames[iCurProject]) != string::npos){
-                ifstream file(DIR_PATH + fileName);
+                ifstream file(DIR_PATH + s_strFolderDelimiter + fileName);
                 if(!file.is_open()){
                     return;
                 }
@@ -231,6 +240,7 @@ static void sumTime(string p_strCurFolder){
         sec2SMH(lAllTimeToday, s, m, h);
         cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
 }
+//----------------------------------------- CLASS -------------------------------------------
 
 class Bmp4PunchClock {
     
@@ -389,14 +399,10 @@ int main(int argc, const char * argv[]) {
 
     //mac /Users/nicolai/Library/Developer/Xcode/DerivedData/PunchClock-anbnsofaiqcedlfmvthuvqmvwqrb/Build/Products/Debug/PunchClock
 	//pc C:\Users\barth\Documents\git\Bmp4PunchClock\Bmp4PunchClockVS\Debug\Bmp4PunchClockVS.exe
-#ifdef WIN32
-	string folderChar = "\\";
-#else
-	string folderChar = "/";
-#endif
+
     //get current folder, ie the folder where this exe is run
     string path(argv[0]);
-	string strCurFolder = path.substr(0,path.find(folderChar+"PunchClock"));
+	string strCurFolder = path.substr(0,path.find(s_strFolderDelimiter+"PunchClock"));
     
     
     Bmp4PunchClock punchClock(strCurFolder);
