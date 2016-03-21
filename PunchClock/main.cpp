@@ -390,6 +390,7 @@ int main(int argc, const char * argv[]) {
 #endif
     string path(argv[0]);
     cout << path << endl;
+    cout << "---------------\n";
 	cout << path.substr(0,path.find(folderChar+"PunchClock")) << endl;
     
     Bmp4PunchClock punchClock;

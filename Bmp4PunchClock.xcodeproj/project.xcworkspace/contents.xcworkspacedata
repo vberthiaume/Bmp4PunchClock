@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:PunchClock.xcodeproj">
+      location = "self:/Users/nicolai/Documents/git/bmp4PunchClock/Bmp4PunchClock.xcodeproj">
    </FileRef>
 </Workspace>
