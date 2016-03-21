@@ -47,19 +47,17 @@ string s_strFolderDelimiter = "\\";
 string s_strFolderDelimiter = "/";
 #endif
 
-
-
-#ifdef _WIN32
-    static const string FILEPATH = "C:/Users/barth/Dropbox/PunchClockHours";
-#endif
-
-#ifdef __APPLE__
-    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
-#endif
-
-#ifdef __linux__
-	static const string FILEPATH = "/home/vberthiaume/Dropbox/PunchClockHours";
-#endif
+//#ifdef _WIN32
+//    static const string FILEPATH = "C:/Users/barth/Dropbox/PunchClockHours";
+//#endif
+//
+//#ifdef __APPLE__
+//    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
+//#endif
+//
+//#ifdef __linux__
+//	static const string FILEPATH = "/home/vberthiaume/Dropbox/PunchClockHours";
+//#endif
 
 //this is for getting the current folder
 //#include <stdio.h>  /* defines FILENAME_MAX */
@@ -352,7 +350,7 @@ public:
         
         cout << "OK, good luck with: " << ProjectNames[iSelectedProject] << "! ";
 
-		string wholeFilePath = FILEPATH + ProjectNames[iSelectedProject] + ".csv";
+		string wholeFilePath = m_strCurFolder + s_strFolderDelimiter + "PunchClockHours" + ProjectNames[iSelectedProject] + ".csv";
 		m_oFileOutputStream = ofstream(wholeFilePath, ios::app);
 		if (!m_oFileOutputStream){
 			cerr << "ERROR: Cannot open file: " << wholeFilePath << "\n";
