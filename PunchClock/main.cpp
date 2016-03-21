@@ -381,12 +381,8 @@ public:
 //----------------------------------------------------------------------------------------
 int main(int argc, const char * argv[]) {
     
-    if (argc == 2){
-        //argv[0] is the full path of the current program
-		string path(argv[1]);
-        cout << path;
-
-    }
+    string path(argv[0]);
+    cout << path << endl;   //mac /Users/nicolai/Library/Developer/Xcode/DerivedData/PunchClock-anbnsofaiqcedlfmvthuvqmvwqrb/Build/Products/Debug/PunchClock
     
     Bmp4PunchClock punchClock;
     if (punchClock.projectSelection()){
