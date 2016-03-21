@@ -27,7 +27,7 @@ http://www.softagalleria.net/dirent.php
 Also, punchclock now uses the current folder for creating new files, reading current times, and summing them.
 
 
-The MIT License (MIT)
+#The MIT License (MIT)
 
 Copyright (c) 2015 Vincent Berthiaume
 
