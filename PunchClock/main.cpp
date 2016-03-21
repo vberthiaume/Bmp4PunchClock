@@ -161,6 +161,7 @@ static void sumTime(string p_strCurFolder){
     DIR *dir;
     struct dirent *ent;
     string DIR_PATH(p_strCurFolder);
+	cout << "Summing hours from: " << p_strCurFolder << endl;
 
     if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
         cerr << "Error: could not open directory: " << DIR_PATH << ". Please make sure this path is correct.\n";
