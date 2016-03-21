@@ -241,6 +241,7 @@ class Bmp4PunchClock {
     int iSelectedProject;
     bool m_bMoreOptions;
 	locale loc;
+    string m_strCurFolder;
     
     void punchIn(){
         bIsPunchedIn = true;
@@ -280,12 +281,13 @@ class Bmp4PunchClock {
     }
 
 public:
-    Bmp4PunchClock()
-    :bIsPunchedIn(false)
-    ,iSelectedProject(-1)
-    ,m_bMoreOptions(false)
-    {
-    }
+    Bmp4PunchClock(string p_strCurFolder)
+    : bIsPunchedIn(false)
+    , iSelectedProject(-1)
+    , m_bMoreOptions(false)
+    , m_strCurFolder(p_strCurFolder)
+    { }
+    
     ~Bmp4PunchClock(){
         if (bIsPunchedIn){
             punchOut();
@@ -388,12 +390,12 @@ int main(int argc, const char * argv[]) {
 #else
 	string folderChar = "/";
 #endif
+    //get current folder, ie the folder where this exe is run
     string path(argv[0]);
-    cout << path << endl;
-    cout << "---------------\n";
-	cout << path.substr(0,path.find(folderChar+"PunchClock")) << endl;
+	string strCurFolder = path.substr(0,path.find(folderChar+"PunchClock"));
     
-    Bmp4PunchClock punchClock;
+    
+    Bmp4PunchClock punchClock(strCurFolder);
     if (punchClock.projectSelection()){
         punchClock.waitForPunches();
         punchClock.wrapup();
