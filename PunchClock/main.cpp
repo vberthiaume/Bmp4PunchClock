@@ -193,7 +193,7 @@ static void sumTime(string p_strCurFolder){
                         size_t dashPos = line.find(" - ");
                         string date = line.substr(dashPos+3);
                         bool bIsToday = false;
-                        if(todayStr.compare(date) == 0){
+                        if(todayStr.compare(date) == 0 || todayStr.compare(date.substr(0, date.size()-1)) == 0){
                             bIsToday = true;
                         }
                         //search for total time for that date
