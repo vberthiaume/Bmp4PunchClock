@@ -53,14 +53,14 @@ using namespace std;
 #endif
 
 //this is for getting the current folder
-#include <stdio.h>  /* defines FILENAME_MAX */
-#ifdef WIN32
-#include <direct.h>
-#define GetCurrentDir _getcwd
-#else
-#include <unistd.h>
-#define GetCurrentDir getcwd
-#endif
+//#include <stdio.h>  /* defines FILENAME_MAX */
+//#ifdef WIN32
+//    #include <direct.h>
+//    #define GetCurrentDir _getcwd
+//#else
+//    #include <unistd.h>
+//    #define GetCurrentDir getcwd
+//#endif
 
 enum Projects {
     GRIS = 0
@@ -131,25 +131,29 @@ static long SMH2Sec(const long &p_lS, const long &p_lM, const long &p_lH){
     return totalSeconds;
 }
 
-static void sumTime(){
+static void sumTime(string p_strCurFolder){
 
-    //open current directory
+//    //open current directory
+//    DIR *dir;
+//    struct dirent *ent;
+//    
+//#ifdef WIN32
+//    //get current directory
+//    char cCurrentPath[FILENAME_MAX];
+//    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
+//        cout << "cannot find current directory\n";
+//    }
+//    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
+//    cout << "Summing hours from: " << cCurrentPath << endl;
+//    string DIR_PATH = string(cCurrentPath);
+//    DIR_PATH.append("\\");
+//#else
+//	string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
+//#endif
+    
     DIR *dir;
     struct dirent *ent;
-    
-#ifdef WIN32
-    //get current directory
-    char cCurrentPath[FILENAME_MAX];
-    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
-        cout << "cannot find current directory\n";
-    }
-    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
-    cout << "Summing hours from: " << cCurrentPath << endl;
-    string DIR_PATH = string(cCurrentPath);
-    DIR_PATH.append("\\");
-#else
-	string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
-#endif
+    string DIR_PATH(p_strCurFolder);
 
     if ((dir = opendir (DIR_PATH.c_str())) == NULL) {
         cerr << "Error: could not open directory: " << DIR_PATH << ". Please make sure this path is correct.\n";
@@ -328,7 +332,7 @@ public:
             if (aSelectedProject == 'q'){
                 return false;
             } else if (aSelectedProject == 's'){
-                sumTime();
+                sumTime(m_strCurFolder);
             } else if (isalpha(aSelectedProject)){
                 continue;
             }
@@ -365,7 +369,7 @@ public:
                     cin >> m_strSelectedOption;
 					m_strSelectedOption = tolower(m_strSelectedOption, loc); //change to lowercase, if need be
                     if (m_strSelectedOption == 's'){
-                        sumTime();
+                        sumTime(m_strCurFolder);
                     }
                     
                 } while (m_strSelectedOption != 'p' && m_strSelectedOption != 'q');
