@@ -181,9 +181,6 @@ static void sumTime(string p_strCurFolder){
         //for each project
         for(int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject) {
             //find files for that project
-			int o = string::npos;
-			int i = (fileName.find("PunchClockHours"));
-			int j = fileName.find(ProjectNames[iCurProject]);
             if(fileName.find("PunchClockHours") != string::npos && fileName.find(ProjectNames[iCurProject]) != string::npos){
                 ifstream file(DIR_PATH + s_strFolderDelimiter + fileName);
                 if(!file.is_open()){
