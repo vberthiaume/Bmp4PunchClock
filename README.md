@@ -1,5 +1,6 @@
 # Bmp4PunchClock
-Awesome free command time punch clock! Allows user to capture time for different projects.
+Awesome free command line punch clock! Allows user to capture time for different projects, and sum time for all files in current folder. 
+
 Times are written in a file for later reference, e.g., 
 
     --------------------------------
