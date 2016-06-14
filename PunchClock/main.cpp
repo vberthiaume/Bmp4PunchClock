@@ -72,22 +72,22 @@ string s_strFolderDelimiter = "/";
 enum Projects {
     GRIS = 0
     ,sBMP4
-    ,SonicBirth
     ,Linux
     ,Music
 	,Babies
 	,AiSound
+    ,SonicBirth     //let's keep sonicbirth last because it messes up the display
     ,TotalProjectCount
 };
 
 static string ProjectNames[] = 
 	{"GRIS"
     ,"sBMP4"
-    ,"SonicBirth"
     ,"Linux"
     ,"Music"
 	,"Babies"
 	,"AI+Sound"
+    ,"SonicBirth"   //let's keep sonicbirth last because it messes up the display
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
@@ -223,18 +223,22 @@ static void sumTime(string p_strCurFolder){
     }
     closedir (dir);
 
-    //if we found some hours
+    //print project names
     for(size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
-        if(lAllTimes[iCurProject] != 0){
+        cout << ProjectNames[iCurProject] << "\t";
+    }
+    cout << "\n";
+    
+    for(size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
             //convert time in seconds to readable time
             long s, m, h;
             sec2SMH(lAllTimes[iCurProject], s, m, h);
-            cout << ProjectNames[iCurProject] << "\t" << h << ":" << m << ":" << s << endl;
-        }
+            cout << h << ":" << m << ":" << s << "\t";
+
     }
         long s, m, h;
         sec2SMH(lAllTimesTotal, s, m, h);
-        cout << "-------------------------\n";
+        cout << "\n-------------------------\n";
         cout << "TOTAL:\t" << h << ":" << m << ":" << s << endl;
         sec2SMH(lAllTimeToday, s, m, h);
         cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
