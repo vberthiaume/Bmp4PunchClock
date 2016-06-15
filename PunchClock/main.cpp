@@ -76,6 +76,7 @@ enum Projects {
     ,Music
 	,Babies
 	,AiSound
+    ,Random
     ,SonicBirth     //let's keep sonicbirth last because it messes up the display
     ,TotalProjectCount
 };
@@ -87,6 +88,7 @@ static string ProjectNames[] =
     ,"Music"
 	,"Babies"
 	,"AI+Sound"
+    ,"Random"
     ,"SonicBirth"   //let's keep sonicbirth last because it messes up the display
 };
 
@@ -208,7 +210,9 @@ static void sumTime(string p_strCurFolder){
                                 //smh to total seconds
                                 long lTimeSecs = SMH2Sec(s, m, h);
                                 lAllTimes[iCurProject] += lTimeSecs;
-                                lAllTimesTotal += lTimeSecs;
+                                if (iCurProject != Random){
+                                    lAllTimesTotal += lTimeSecs;
+                                }
                                 if(bIsToday){
                                     lAllTimeToday += lTimeSecs;
                                 }
@@ -227,7 +231,7 @@ static void sumTime(string p_strCurFolder){
     for(size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
         cout << ProjectNames[iCurProject] << "\t";
     }
-    cout << "\n";
+    cout << "TOTAL\n";
     
     for(size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
             //convert time in seconds to readable time
@@ -236,12 +240,14 @@ static void sumTime(string p_strCurFolder){
             cout << h << ":" << m << ":" << s << "\t";
 
     }
-        long s, m, h;
-        sec2SMH(lAllTimesTotal, s, m, h);
-        cout << "\n-------------------------\n";
-        cout << "TOTAL:\t" << h << ":" << m << ":" << s << endl;
-        sec2SMH(lAllTimeToday, s, m, h);
-        cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
+    
+    long s, m, h;
+    sec2SMH(lAllTimesTotal, s, m, h);
+    cout << "\t" << h << ":" << m << ":" << s << endl;
+    
+    cout << "\n-------------------------\n";
+    sec2SMH(lAllTimeToday, s, m, h);
+    cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
 }
 //----------------------------------------- CLASS -------------------------------------------
 
