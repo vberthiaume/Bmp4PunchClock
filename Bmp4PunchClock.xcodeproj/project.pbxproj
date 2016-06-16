@@ -65,9 +65,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B122617B1AC1E38800C95A3D /* PunchClock */ = {
+		B122617B1AC1E38800C95A3D /* Bmp4PunchClock */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B12261831AC1E38800C95A3D /* Build configuration list for PBXNativeTarget "PunchClock" */;
+			buildConfigurationList = B12261831AC1E38800C95A3D /* Build configuration list for PBXNativeTarget "Bmp4PunchClock" */;
 			buildPhases = (
 				B12261781AC1E38800C95A3D /* Sources */,
 				B12261791AC1E38800C95A3D /* Frameworks */,
@@ -77,7 +77,7 @@
 			);
 			dependencies = (
 			);
-			name = PunchClock;
+			name = Bmp4PunchClock;
 			productName = PunchClock;
 			productReference = B122617C1AC1E38800C95A3D /* PunchClock */;
 			productType = "com.apple.product-type.tool";
@@ -88,7 +88,7 @@
 		B12261741AC1E38800C95A3D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = BMP4;
 				TargetAttributes = {
 					B122617B1AC1E38800C95A3D = {
@@ -96,7 +96,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B12261771AC1E38800C95A3D /* Build configuration list for PBXProject "PunchClock" */;
+			buildConfigurationList = B12261771AC1E38800C95A3D /* Build configuration list for PBXProject "Bmp4PunchClock" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -108,7 +108,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B122617B1AC1E38800C95A3D /* PunchClock */,
+				B122617B1AC1E38800C95A3D /* Bmp4PunchClock */,
 			);
 		};
 /* End PBXProject section */
@@ -144,6 +144,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -203,7 +204,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PunchClock;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -212,7 +213,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PunchClock;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -220,7 +221,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B12261771AC1E38800C95A3D /* Build configuration list for PBXProject "PunchClock" */ = {
+		B12261771AC1E38800C95A3D /* Build configuration list for PBXProject "Bmp4PunchClock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B12261811AC1E38800C95A3D /* Debug */,
@@ -229,7 +230,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B12261831AC1E38800C95A3D /* Build configuration list for PBXNativeTarget "PunchClock" */ = {
+		B12261831AC1E38800C95A3D /* Build configuration list for PBXNativeTarget "Bmp4PunchClock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B12261841AC1E38800C95A3D /* Debug */,

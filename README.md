@@ -1,5 +1,6 @@
 # Bmp4PunchClock
-Awesome free command time punch clock! Allows user to capture time for different projects.
+Awesome free command line punch clock! Allows user to capture time for different projects, and sum time for all files in current folder. 
+
 Times are written in a file for later reference, e.g., 
 
     --------------------------------
@@ -24,8 +25,10 @@ Times are written in a file for later reference, e.g.,
 To compile with visual studio, you need to install the Dirent API:
 http://www.softagalleria.net/dirent.php
 
+Also, punchclock now uses the current folder for creating new files, reading current times, and summing them.
 
-The MIT License (MIT)
+
+#The MIT License (MIT)
 
 Copyright (c) 2015 Vincent Berthiaume
 
