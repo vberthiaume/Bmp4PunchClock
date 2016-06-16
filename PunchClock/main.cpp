@@ -45,7 +45,7 @@ using namespace std;
 #endif
 
 #ifdef __APPLE__
-    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
+    static const string FILEPATH = "/Users/normandeau/Documents/git/PunchClockHours";
 #endif
 
 #ifdef __linux__
@@ -53,20 +53,26 @@ using namespace std;
 #endif
 
 enum Projects {
-    GRIS = 0,
-    sBMP4,
-    SonicBirth,
-    Linux,
-    Sound,
-    TotalProjectCount
+    GRIS = 0
+    ,sBMP4
+    ,Linux
+    ,Music
+    ,Babies
+    ,AiSound
+    ,Random
+    ,SonicBirth     //let's keep sonicbirth last because it messes up the display
+    ,TotalProjectCount
 };
 
 static string ProjectNames[] = {
-    "GRIS",
-    "sBMP4",
-    "SonicBirth",
-    "Linux",
-    "Sound"
+    "GRIS"
+    ,"sBMP4"
+    ,"Linux"
+    ,"Music"
+    ,"Babies"
+    ,"AI+Sound"
+    ,"Random"
+    ,"SonicBirth"   //let's keep sonicbirth last because it messes up the display
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
