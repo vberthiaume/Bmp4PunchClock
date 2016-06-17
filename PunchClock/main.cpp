@@ -213,7 +213,7 @@ static void sumTime(string p_strCurFolder){
                                 if (iCurProject != Random){
                                     lAllTimesTotal += lTimeSecs;
                                 }
-                                if(bIsToday){
+                                if(bIsToday && iCurProject != Random){
                                     lAllTimeToday += lTimeSecs;
                                 }
                                 break;
