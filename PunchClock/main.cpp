@@ -74,23 +74,25 @@ enum Projects {
     ,sBMP4
     ,Linux
     ,Music
-	,Babies
-	,AiSound
+    ,Family
+    ,AiSound
     ,Random
-    ,SonicBirth     //let's keep sonicbirth last because it messes up the display
+    ,Words     //let's keep sonicbirth last because it messes up the display
+    ,Sport
     ,TotalProjectCount
 };
 
 
 static string ProjectNames[] = 
-	{"GRIS"
+    {"GRIS"
     ,"sBMP4"
     ,"Linux"
     ,"Music"
-	,"Babies"
-	,"AI+Sound"
+    ,"Family"
+    ,"AI"
     ,"Random"
-    ,"SonicBirth"   //let's keep sonicbirth last because it messes up the display
+    ,"Sport"
+    ,"Words"   //let's keep sonicbirth last because it messes up the display
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
@@ -244,7 +246,7 @@ static void sumTime(string p_strCurFolder){
     
     long s, m, h;
     sec2SMH(lAllTimesTotal, s, m, h);
-    cout << "\t" << h << ":" << m << ":" << s << endl;
+    cout << /*"\t" <<*/ h << ":" << m << ":" << s << endl;
     
     cout << "\n-------------------------\n";
     sec2SMH(lAllTimeToday, s, m, h);
