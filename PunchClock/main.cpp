@@ -237,20 +237,19 @@ static void sumTime(string p_strCurFolder){
     cout << "TOTAL\n";
     
     for(size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject){
-            //convert time in seconds to readable time
-            long s, m, h;
-            sec2SMH(lAllTimes[iCurProject], s, m, h);
-            cout << h << ":" << m << ":" << s << "\t";
-
+        //convert time in seconds to readable time
+        long s, m, h;
+        sec2SMH(lAllTimes[iCurProject], s, m, h);
+        cout << h << ":" << m /*<< ":" << s*/ << "\t";
     }
     
     long s, m, h;
     sec2SMH(lAllTimesTotal, s, m, h);
-    cout << /*"\t" <<*/ h << ":" << m << ":" << s << endl;
+    cout << /*"\t" <<*/ h << ":" << m /* << ":" << s*/ << endl;
     
     cout << "\n-------------------------\n";
     sec2SMH(lAllTimeToday, s, m, h);
-    cout << "TODAY:\t" << h << ":" << m << ":" << s << endl;
+    cout << "TODAY:\t" << h << ":" << m/* << ":" << s*/ << endl;
 }
 //----------------------------------------- CLASS -------------------------------------------
 
