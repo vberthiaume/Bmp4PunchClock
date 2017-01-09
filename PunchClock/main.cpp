@@ -37,6 +37,7 @@
 #include <math.h>
 #include <dirent.h>
 #include <locale> 
+#include <stdio.h>
 
 using namespace std;
 
@@ -72,7 +73,7 @@ string s_strFolderDelimiter = "/";
 enum Projects {
     GRIS = 0
     ,sBMP4
-    ,Linux
+    ,Dsp
     ,Music
     ,Family
     ,AiSound
@@ -86,10 +87,10 @@ enum Projects {
 static string ProjectNames[] = 
     {"GRIS"
     ,"sBMP4"
-    ,"Linux"
+    ,"DSP"
     ,"Music"
     ,"Family"
-    ,"AI"
+    ,"VBlandr"
     ,"Random"
     ,"Sport"
     ,"Words"   //let's keep sonicbirth last because it messes up the display
