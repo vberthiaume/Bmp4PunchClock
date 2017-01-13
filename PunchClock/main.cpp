@@ -86,7 +86,7 @@ enum Projects {
 
 static string ProjectNames[] = 
     {"GRIS"
-    ,"sBMP4"
+    ,"General"
     ,"DSP"
     ,"Music"
     ,"Family"
