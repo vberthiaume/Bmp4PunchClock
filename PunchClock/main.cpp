@@ -72,7 +72,7 @@ string s_strFolderDelimiter = "/";
 
 enum Projects {
     GRIS = 0
-    ,sBMP4
+    ,General
     ,Dsp
     ,Music
     ,Family
@@ -86,7 +86,7 @@ enum Projects {
 
 static string ProjectNames[] = 
     {"GRIS"
-    ,"sBMP4"
+    ,"General"
     ,"DSP"
     ,"Music"
     ,"Family"
