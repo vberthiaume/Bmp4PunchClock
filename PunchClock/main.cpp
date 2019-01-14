@@ -48,52 +48,14 @@ string s_strFolderDelimiter = "\\";
 string s_strFolderDelimiter = "/";
 #endif
 
-//#ifdef _WIN32
-//    static const string FILEPATH = "C:/Users/barth/Dropbox/PunchClockHours";
-//#endif
-//
-//#ifdef __APPLE__
-//    static const string FILEPATH = "/Users/nicolai/Dropbox/PunchClockHours";
-//#endif
-//
-//#ifdef __linux__
-//	static const string FILEPATH = "/home/vberthiaume/Dropbox/PunchClockHours";
-//#endif
-
-//this is for getting the current folder
-//#include <stdio.h>  /* defines FILENAME_MAX */
-//#ifdef WIN32
-//    #include <direct.h>
-//    #define GetCurrentDir _getcwd
-//#else
-//    #include <unistd.h>
-//    #define GetCurrentDir getcwd
-//#endif
-
-enum Projects {
-    sBMP4 = 0
-    ,General
-    ,Dsp
-    ,Music
-    ,Family
-    ,AiSound
-    ,Random
-    ,Words     //let's keep sonicbirth last because it messes up the display
-    ,Sport
-    ,TotalProjectCount
-};
-
-
 static string ProjectNames[] = 
-    {"sBMP4"
-    ,"General"
+    {"Words"
+    ,"sBMP4"
+    ,"JUCE"
+    ,"Thread"
     ,"DSP"
-    ,"Music"
-    ,"Family"
-    ,"VBlandr"
+    ,"Game engines"
     ,"Random"
-    ,"Sport"
-    ,"Words"   //let's keep sonicbirth last because it messes up the display
 };
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
