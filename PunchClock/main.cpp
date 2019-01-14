@@ -58,6 +58,8 @@ static string ProjectNames[] =
     ,"Random"
 };
 
+static const int TotalProjectCount = 7;
+
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
     stringstream ss;
@@ -93,9 +95,9 @@ static string time2date(chrono::time_point<chrono::system_clock> p_time){
 
 static void sec2SMH(long elapsedTime, long &p_lS, long &p_lM, long &p_lH){
     p_lS = elapsedTime;
-    p_lH  = floor(p_lS  / 3600);
+    p_lH = (long) floor(p_lS  / 3600);
     p_lS -= p_lH * 3600;
-    p_lM = floor(p_lS / 60);
+    p_lM = (long) floor(p_lS / 60);
     p_lS -= p_lM * 60;
 }
 
@@ -136,6 +138,7 @@ static void sumTime(string p_strCurFolder){
         return;
     }
 
+
     long lAllTimes[TotalProjectCount] = {0};
     long lAllTimeToday = 0;
     long lAllTimesTotal = 0;
@@ -165,9 +168,11 @@ static void sumTime(string p_strCurFolder){
                             bIsToday = true;
                         }
                         //search for total time for that date
-                        while(getline(file, line)){
+                        while(getline(file, line))
+                        {
                             size_t timePos = line.find("TOTAL,,");
-                            if(timePos != string::npos){
+
+                            if (timePos != string::npos){
                                 //read line in format HH:MM:SS
                                 string time = line.substr(timePos+7);
                                 //string to s,m,h
@@ -176,12 +181,11 @@ static void sumTime(string p_strCurFolder){
                                 //smh to total seconds
                                 long lTimeSecs = SMH2Sec(s, m, h);
                                 lAllTimes[iCurProject] += lTimeSecs;
-                                if (iCurProject != Random){
-                                    lAllTimesTotal += lTimeSecs;
-                                }
-                                if(bIsToday && iCurProject != Random){
+                                lAllTimesTotal += lTimeSecs;
+
+                                if (bIsToday)
                                     lAllTimeToday += lTimeSecs;
-                                }
+
                                 break;
                             }
                         }
@@ -250,6 +254,7 @@ class Bmp4PunchClock {
         m_oFileOutputStream << strPunchOutTime;
         m_oElapsedTime = m_oPunchOutTime - m_oPunchInTime;
         //elapsedTime = chrono::seconds(3661);
+
         m_vAllTimes.push_back(chrono::duration_cast<chrono::seconds>(m_oElapsedTime).count());
         calculateTime(m_oElapsedTime);
         m_oFileOutputStream << "," << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
