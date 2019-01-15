@@ -53,12 +53,13 @@ static string ProjectNames[] =
     ,"sBMP4"
     ,"JUCE"
     ,"Thread"
+    ,"AW"
     ,"DSP"
-    ,"Game engines"
+    ,"Games"
     ,"Random"
 };
 
-static const int TotalProjectCount = 7;
+static const int TotalProjectCount = 8;
 
 static string time2string(chrono::time_point<chrono::system_clock> p_time){
     auto in_time_t = chrono::system_clock::to_time_t(p_time);

@@ -407,3 +407,4 @@ FakesAssemblies/
 *.opt
 
 *.opendb
+*.db
