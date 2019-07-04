@@ -53,7 +53,7 @@ static string ProjectNames[] =
     ,"Words"
     ,"sBMP4"
     ,"JUCE"
-    ,"Thread"
+    ,"Core"
     ,"AW"
     ,"DSP"
     ,"Games"
