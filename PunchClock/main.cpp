@@ -49,18 +49,18 @@ string s_strFolderDelimiter = "/";
 #endif
 
 static string ProjectNames[] = 
-    {"8dio"
+{
+    "8dio"
+    ,"Algo"
     ,"Words"
+    ,"Jobs"
+    ,"C++"
     ,"sBMP4"
-    ,"JUCE"
-    ,"Core"
-    ,"AW"
     ,"DSP"
-    ,"Games"
     ,"Random"
 };
 
-static const int TotalProjectCount = 9;
+static const int TotalProjectCount = 8;
 
 static string time2string (chrono::time_point<chrono::system_clock> p_time)
 {
@@ -113,7 +113,6 @@ static long SMH2Sec(const long &p_lS, const long &p_lM, const long &p_lH){
     totalSeconds += 3600 * p_lH;
     return totalSeconds;
 }
-
 
 //----------------------------------------- CLASS -------------------------------------------
 
@@ -192,14 +191,13 @@ class Bmp4PunchClock
             //for each project
             for (int iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject)
             {
-//find files for that project
+                //find files for that project
                 if (fileName.find("PunchClockHours") != string::npos && fileName.find(ProjectNames[iCurProject]) != string::npos)
                 {
                     ifstream file(DIR_PATH + s_strFolderDelimiter + fileName);
                     if (!file.is_open())
-                    {
                         return;
-                    }
+
                     //go through lines, searching for current project name
                     string line;
                     while (getline(file, line))
@@ -210,9 +208,8 @@ class Bmp4PunchClock
                             string date = line.substr(dashPos + 3);
                             bool bIsToday = false;
                             if (todayStr.compare(date) == 0 || todayStr.compare(date.substr(0, date.size() - 1)) == 0)
-                            {
                                 bIsToday = true;
-                            }
+
                             //search for total time for that date
                             while (getline(file, line))
                             {
@@ -220,7 +217,7 @@ class Bmp4PunchClock
 
                                 if (timePos != string::npos)
                                 {
-        //read line in format HH:MM:SS
+                                    //read line in format HH:MM:SS
                                     string time = line.substr(timePos + 7);
                                     //string to s,m,h
                                     long s, m, h;
@@ -246,14 +243,13 @@ class Bmp4PunchClock
 
         //print project names
         for (size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject)
-        {
             cout << ProjectNames[iCurProject] << "\t";
-        }
+
         cout << "TOTAL\n";
 
         for (size_t iCurProject = 0; iCurProject < TotalProjectCount; ++iCurProject)
         {
-//convert time in seconds to readable time
+            //convert time in seconds to readable time
             long s, m, h;
             sec2SMH(lAllTimes[iCurProject], s, m, h);
             cout << h << ":" << m /*<< ":" << s*/ << "\t";
@@ -278,7 +274,7 @@ class Bmp4PunchClock
         m_oElapsedTime = m_oPunchOutTime - m_oPunchInTime;
         //elapsedTime = chrono::seconds(3661);
 
-        m_vAllTimes.push_back (chrono::duration_cast<chrono::seconds> (m_oElapsedTime).count());
+        m_vAllTimes.push_back ((long) chrono::duration_cast<chrono::seconds> (m_oElapsedTime).count());
         calculateTime (m_oElapsedTime);
         m_oFileOutputStream << "," << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
         m_oFileOutputStream.flush();
@@ -292,13 +288,13 @@ class Bmp4PunchClock
         for (auto& time : m_vAllTimes)
             totalTodayTime += time;
 
-        ::sec2SMH (totalTodayTime, m_lSeconds, m_lMinutes, m_lHours);
+        sec2SMH (totalTodayTime, m_lSeconds, m_lMinutes, m_lHours);
         cout << "; " << m_lHours << ":" << m_lMinutes << ":" << m_lSeconds << "\n";
     }
 
     void calculateTime (chrono::duration<double> elapsedTime)
     {
-        ::sec2SMH(chrono::duration_cast<chrono::seconds>(elapsedTime).count(), m_lSeconds, m_lMinutes, m_lHours);
+        sec2SMH(chrono::duration_cast<chrono::seconds>(elapsedTime).count(), m_lSeconds, m_lMinutes, m_lHours);
     }
 
 public:
