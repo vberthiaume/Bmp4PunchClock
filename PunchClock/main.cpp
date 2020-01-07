@@ -35,7 +35,7 @@
 #include <sstream>
 #include <vector>
 #include <math.h>
-#ifdef WIN32
+#if _MSC_VER >= 1900
 #include "dirent.h"
 #else
 #include <dirent.h>
@@ -46,7 +46,7 @@
 using namespace std;
 
 //----------------------------------------- STATIC STUFF -------------------------------------------
-#ifdef WIN32
+#if _MSC_VER >= 1900
 string s_strFolderDelimiter = "\\";
 #else
 string s_strFolderDelimiter = "/";
@@ -298,7 +298,7 @@ class Bmp4PunchClock
 
     void calculateTime (chrono::duration<double> elapsedTime)
     {
-        sec2SMH(chrono::duration_cast<chrono::seconds>(elapsedTime).count(), m_lSeconds, m_lMinutes, m_lHours);
+        sec2SMH((long) chrono::duration_cast<chrono::seconds>(elapsedTime).count(), m_lSeconds, m_lMinutes, m_lHours);
     }
 
 public:
