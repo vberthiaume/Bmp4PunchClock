@@ -35,7 +35,11 @@
 #include <sstream>
 #include <vector>
 #include <math.h>
+#ifdef WIN32
 #include "dirent.h"
+#else
+#include <dirent.h>
+#endif
 #include <locale> 
 #include <stdio.h>
 
