@@ -54,7 +54,7 @@ string s_strFolderDelimiter = "/";
 
 static string ProjectNames[] = 
 {
-    "8dio"
+     "Artiphon"
     ,"Algo"
     ,"Words"
     ,"Jobs"
@@ -66,11 +66,18 @@ static string ProjectNames[] =
 
 static const int TotalProjectCount = 8;
 
-static string time2string (chrono::time_point<chrono::system_clock> p_time)
+static string time2string(chrono::time_point<chrono::system_clock> p_time)
 {
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
+
+    struct tm newtime;
+    auto err = localtime_s(&newtime, &in_time_t);
+    if (err)
+        return "";
+
     stringstream ss;
-    ss << std::put_time(localtime(&in_time_t), "%X");
+    
+    ss << std::put_time(&newtime, "%X");
     return ss.str();
 }
 
@@ -96,10 +103,16 @@ static chrono::duration<int> string2duration (const string &p_time){
     return chrono::duration<int> (iS + 60*iM + 3600* iH);
 }
 
-static string time2date(chrono::time_point<chrono::system_clock> p_time){
+static string time2date(chrono::time_point<chrono::system_clock> p_time) {
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
+    struct tm newtime;
+    auto err = localtime_s(&newtime, &in_time_t);
+    if (err)
+        return "";
+
+
     stringstream ss;
-    ss << put_time(localtime(&in_time_t), "%Y-%m-%d");
+    ss << put_time(&newtime, "%Y-%m-%d");
     return ss.str();
 }
 
