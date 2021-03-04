@@ -36,9 +36,9 @@
 #include <vector>
 #include <math.h>
 #if _MSC_VER >= 1900
-#include "dirent.h"
+    #include "dirent.h"
 #else
-#include <dirent.h>
+    #include <dirent.h>
 #endif
 #include <locale> 
 #include <stdio.h>
@@ -71,9 +71,13 @@ static string time2string(chrono::time_point<chrono::system_clock> p_time)
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
 
     struct tm newtime;
+#if _MSC_VER >= 1900
     auto err = localtime_s(&newtime, &in_time_t);
     if (err)
         return "";
+#else
+    auto err = localtime_r (&in_time_t, &newtime);
+#endif
 
     stringstream ss;
     
@@ -97,19 +101,17 @@ static void string2HMS(const string &p_time, long &iS, long &iM, long &iH)
     iS = stoi(item);
 }
 
-static chrono::duration<int> string2duration (const string &p_time){
-    long iH, iM, iS;
-    string2HMS(p_time, iS, iM, iH);
-    return chrono::duration<int> (iS + 60*iM + 3600* iH);
-}
-
-static string time2date(chrono::time_point<chrono::system_clock> p_time) {
+static string time2date(chrono::time_point<chrono::system_clock> p_time)
+{
     auto in_time_t = chrono::system_clock::to_time_t(p_time);
     struct tm newtime;
+#if _MSC_VER >= 1900
     auto err = localtime_s(&newtime, &in_time_t);
     if (err)
         return "";
-
+#else
+    auto err = localtime_r (&in_time_t, &newtime);
+#endif
 
     stringstream ss;
     ss << put_time(&newtime, "%Y-%m-%d");
@@ -164,25 +166,6 @@ class Bmp4PunchClock
 
     void sumTime (string p_strCurFolder)
     {
-
-//    //open current directory
-//    DIR *dir;
-//    struct dirent *ent;
-//    
-//#ifdef WIN32
-//    //get current directory
-//    char cCurrentPath[FILENAME_MAX];
-//    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
-//        cout << "cannot find current directory\n";
-//    }
-//    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
-//    cout << "Summing hours from: " << cCurrentPath << endl;
-//    string DIR_PATH = string(cCurrentPath);
-//    DIR_PATH.append("\\");
-//#else
-//	string DIR_PATH = FILEPATH.substr(0, FILEPATH.find("PunchClockHours"));
-//#endif
-
         DIR *dir;
         struct dirent *ent;
         string DIR_PATH(p_strCurFolder);
@@ -269,7 +252,7 @@ class Bmp4PunchClock
             //convert time in seconds to readable time
             long s, m, h;
             sec2SMH(lAllTimes[iCurProject], s, m, h);
-            cout << h << ":" << m /*<< ":" << s*/ << "\t";
+            cout << h << ":" << m /*<< ":" << s*/ << ",\t";
         }
 
         long s, m, h;
